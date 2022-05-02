@@ -38,3 +38,23 @@ function remkdir () {
 function renumerate () {
     ls -v | awk 'NR>1 { print $9 }' | cat -n | while read n f; do mv -n "$f" $(printf "%05d.jpg" "$n"); done
 }
+
+function install-jupyter () {
+    # make environment
+    sudo mkdir -p /opt/jupyter
+    sudo chown -R $USER:$USER /opt/jupyter
+    builtin cd /opt/jupyter
+    echo -e "notebook==6.4.11\njupyter-contrib-nbextensions==0.5.1" >> requirements.txt
+    python3 -m venv venv
+    source venv/bin/activate
+    pip3 install --upgrade pip
+    pip3 install -r requirements.txt
+    jupyter contrib nbextension install --user
+
+    # prepare jupyter-launcher script
+    echo "#!/bin/bash
+source /opt/jupyter/venv/bin/activate
+cd ~
+jupyter notebook" >> jupyter-launcher.sh
+    chmod +x jupyter-launcher.sh
+}
