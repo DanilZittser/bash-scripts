@@ -28,7 +28,7 @@ function lscp () {
 }
 
 function mkvideo () {
-    ffmpeg -framerate 24 -i %05d.jpg ~/"$1".mp4
+    ffmpeg -framerate 24 -pattern_type glob -i '*.jpg' ~/"$1".mp4
 }
 
 function remkdir () {
