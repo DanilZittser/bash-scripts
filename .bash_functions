@@ -10,7 +10,9 @@ function mkenv () {
     source venv/bin/activate
     pip3 install --upgrade pip
 
-    if [[ -f requirements.txt ]]; then
+    if [[ -f requirements-dev.txt ]]; then
+        pip3 install -r requirements-dev.txt
+    elif [[ -f requirements.txt ]]; then
         pip3 install -r requirements.txt
     fi
 }
